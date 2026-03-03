@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Legado do 3ºA | CESE</title>
+    
+    <!-- Google Fonts: Futurais e Minimalistas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;700&family=Plus+Jakarta+Sans:wght@200;400;600&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <style>
+        :root {
+            --purple-dark: #1A0B2E;
+            --purple-main: #581C87; /* Cor roxa destaque */
+            --purple-neon: #A855F7;
+            --bg-light: #F1F0F6;
+            --text-light: #F8F8F8;
+            --text-dark: #121212;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; /* Cursor customizado */
+        }
+
+        html.lenis {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--purple-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+            transition: background-color 0.8s ease;
+        }
+
+        /* Textura sutil futurista (Topográfica/Grid) */
+        .bg-texture {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.5;
+            transition: opacity 0.5s ease;
+        }
+
+        body.light-mode .bg-texture {
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+        }
+
+        /* Cursor Customizado */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--purple-neon);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+            mix-blend-mode: difference;
+        }
+        .cursor.hovered {
+            width: 80px;
+            height: 80px;
+            background-color: var(--text-light);
+            border-color: transparent;
+        }
+
+        /* Tipografia */
+        h1, h2, h3 {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .huge-text {
+            font-size: clamp(4rem, 12vw, 15rem);
+            line-height: 0.9;
+            font-weight: 700;
+            letter-spacing: -2px;
+            white-space: nowrap;
+        }
+
+        /* Seções */
+        section {
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 5vw;
+            position: relative;
+        }
+
+        /* Hero Section */
+        .hero {
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            z-index: 2;
+        }
+
+        .hero span.outline {
+            color: transparent;
+            -webkit-text-stroke: 2px var(--purple-neon);
+            display: block;
+        }
+
+        /* Storytelling Section (Logo & Pantera) */
+        .story-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5vw;
+            align-items: center;
+        }
+
+        .story-text {
+            max-width: 600px;
+        }
+
+        .story-text h2 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            margin-bottom: 2rem;
+            color: var(--purple-neon);
+        }
+
+        .story-text p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+            font-weight: 200;
+        }
+
+        .logo-container {
+            position: relative;
+            width: 100%;
+            height: 60vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-img {
+            max-width: 80%;
+            filter: drop-shadow(0 0 30px rgba(168, 85, 247, 0.2));
+            z-index: 2;
+        }
+
+        .panther-bg {
+            position: absolute;
+            font-size: 30vw;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            color: rgba(255,255,255,0.02);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            white-space: nowrap;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Showcase da Camisa (Fundo Claro) */
+        .showcase-section {
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 10vh;
+            min-height: 150vh; /* Espaço para parallax */
+        }
+
+        .showcase-title {
+            text-align: center;
+            margin-bottom: 5vh;
+            color: var(--purple-main);
+        }
+
+        .shirt-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .shirt-img {
+            width: 80%;
+            max-width: 800px;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15));
+            transform-origin: center center;
+            z-index: 5;
+        }
+
+        /* Detalhes Flutuantes */
+        .detail-box {
+            position: absolute;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(88, 28, 135, 0.2);
+            padding: 1.5rem;
+            border-radius: 12px;
+            max-width: 250px;
+            color: var(--text-dark);
+            opacity: 0; /* Animado via JS */
+        }
+
+        .detail-box h4 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--purple-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-1 { top: 20%; left: 5%; }
+        .detail-2 { bottom: 20%; right: 5%; }
+
+        /* Footer */
+        .footer {
+            min-height: 50vh;
+            align-items: center;
+            text-align: center;
+            background-color: var(--purple-dark);
+            color: var(--text-light);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .story-section { grid-template-columns: 1fr; }
+            .shirt-img { width: 100%; }
+            .detail-box { position: relative; inset: auto; margin: 1rem auto; opacity: 1;}
+        }
+
+        /* Utilitários JS */
+        .reveal-text { clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); }
+    </style>
+</head>
+<body>
+
+    <div class="cursor"></div>
+    <div class="bg-texture"></div>
+
+    <main>
+        <!-- SEÇÃO 1: HERO -->
+        <section class="hero">
+            <h1 class="huge-text gs-reveal">
+                NÃO TÍNHAMOS <br>
+                <span class="outline">UMA IDENTIDADE.</span>
+            </h1>
+            <h1 class="huge-text gs-reveal" style="margin-top: -2rem;">NÓS CRIAMOS UMA.</h1>
+        </section>
+
+        <!-- SEÇÃO 2: A ORIGEM (LOGO) -->
+        <section class="story-section">
+            <div class="logo-container">
+                <!-- Coloque a URL da Logo oficial aqui. Usando um placeholder estiloso -->
+                <div class="panther-bg gs-parallax">LUX LIBERAT</div>
+                <img src="https://raw.githubusercontent.com/Dunegerb/shirtpanteras/a747b1abff2e46122c13fcace3a92eb2dee32e3a/emblema.webp" alt="Brasão Santa Edwiges" class="logo-img hover-target"></div>
+            <div class="story-text">
+                <h2 class="gs-fade-up">A Gênese do Escudo</h2>
+                <p class="gs-fade-up">O Colégio Estadual Santa Edwiges nunca possuiu um brasão oficial. O que era para ser apenas uma camisa de terceirão, transformou-se em um marco histórico. Nós, do 3ºA, decidimos que era hora de deixar um legado.</p>
+                <p class="gs-fade-up">Inspirados pela história da padroeira Santa Edwiges, desenhamos um escudo que impõe respeito. O livro representa a nossa busca pela sabedoria; a coroa, a nobreza de nossos ideais; e a pomba, a liberdade que nos aguarda após o colégio. Coroamos tudo com o lema: <strong>Lux Liberat</strong> (A Luz Liberta).</p>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 3: O ESPÍRITO (A PANTERA) -->
+        <section class="story-section" style="direction: rtl;">
+            <!-- Invertendo a direção para ziguezague no layout -->
+            <div class="logo-container" style="direction: ltr;">
+                <div class="panther-bg gs-parallax" style="color: rgba(168, 85, 247, 0.05); font-size: 40vw;">PANTERAS</div>
+            </div>
+            <div class="story-text" style="direction: ltr;">
+                <h2 class="gs-fade-up">O Espírito Animal</h2>
+                <p class="gs-fade-up">Mas um brasão clássico era apenas metade da nossa alma. Nós precisávamos de algo que representasse a nossa energia como turma. <strong>Nós escolhemos a Pantera.</strong></p>
+                <p class="gs-fade-up">A escolha não foi por acaso. A pantera é majestosa, elegante e misteriosa, mas esconde uma força brutal e implacável. Ela observa em silêncio e ataca com precisão. É exatamente assim que o 3ºA atua: focados, unidos e prontos para dominar qualquer desafio que o futuro nos impor.</p>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 4: A CAMISA (Apresentação High-End) -->
+        <section class="showcase-section" id="showcase">
+            <div class="showcase-title">
+                <h2 class="huge-text" style="font-size: clamp(3rem, 8vw, 8rem); color: var(--text-dark);">A ARMADURA</h2>
+            </div>
+
+            <div class="shirt-wrapper">
+                <div class="detail-box detail-1 gs-detail">
+                    <h4>Textura Tribal</h4>
+                    <p>Padrões sublimados em roxo neon que remetem à natureza predatória e furtiva da pantera, camuflados no escuro.</p>
+                </div>
+
+                <!-- IMAGEM DA CAMISA (Usando o RAW do GitHub para renderizar) -->
+                <img src="https://raw.githubusercontent.com/Dunegerb/shirtpanteras/680000c2fc875e1c5e34624dec76065dc16c85e7/Mockup-DekGrafis-2025-transparentbackground.png" 
+                     alt="Camisa 3A Panteras" 
+                     class="shirt-img hover-target gs-shirt-zoom">
+
+                <div class="detail-box detail-2 gs-detail">
+                    <h4>Identidade Exclusiva</h4>
+                    <p>O número 3 majestoso ao centro, marcando o nosso ano e o nosso território no CESE.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <section class="footer">
+            <h1 class="huge-text">TERCEIRÃO 3ºA</h1>
+            <p style="font-size: 1.5rem; letter-spacing: 5px; margin-top: 1rem; color: var(--purple-neon);">EST. 2026</p>
+        </section>
+    </main>
+
+    <!-- Scripts: GSAP e Lenis -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        // 1. Inicializar Lenis (Smooth Scroll)
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smooth: true,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Registrar GSAP ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 2. Cursor Customizado
+        const cursor = document.querySelector('.cursor');
+        const hoverTargets = document.querySelectorAll('.hover-target, .huge-text');
+
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.1,
+                ease: "power2.out"
+            });
+        });
+
+        hoverTargets.forEach(target => {
+            target.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+            target.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+        });
+
+        // 3. Animações GSAP
+        
+        // Hero Text Reveal
+        gsap.from(".hero .huge-text", {
+            y: 150,
+            opacity: 0,
+            duration: 1.5,
+            stagger: 0.2,
+            ease: "power4.out",
+            delay: 0.2
+        });
+
+        // Fade Up Textos Storytelling
+        gsap.utils.toArray('.gs-fade-up').forEach(text => {
+            gsap.from(text, {
+                scrollTrigger: {
+                    trigger: text,
+                    start: "top 85%",
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out"
+            });
+        });
+
+        // Efeito Parallax nos textos de fundo
+        gsap.utils.toArray('.gs-parallax').forEach(bgText => {
+            gsap.to(bgText, {
+                scrollTrigger: {
+                    trigger: bgText.parentElement,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 1
+                },
+                y: 100,
+                ease: "none"
+            });
+        });
+
+        // 4. TRANSICÃO ÉPICA DE COR (Dark -> Light)
+        const body = document.querySelector('body');
+        
+        ScrollTrigger.create({
+            trigger: "#showcase",
+            start: "top 60%", // Quando a seção showcase chegar a 60% da tela
+            end: "bottom 40%",
+            onEnter: () => {
+                body.style.backgroundColor = "var(--bg-light)";
+                body.style.color = "var(--text-dark)";
+                body.classList.add('light-mode');
+                // Ajusta a cor do texto hero da showcase
+                document.querySelector('.showcase-title .huge-text').style.color = "var(--purple-dark)";
+            },
+            onLeaveBack: () => {
+                body.style.backgroundColor = "var(--purple-dark)";
+                body.style.color = "var(--text-light)";
+                body.classList.remove('light-mode');
+            }
+        });
+
+        // 5. Apresentação da Camisa (Zoom Cinemático e Detalhes)
+        let shirtTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#showcase",
+                start: "top 30%",
+                end: "bottom bottom",
+                scrub: 1,
+            }
+        });
+
+        // A camisa começa um pouco menor e cresce enquanto o usuário desce
+        shirtTl.fromTo(".gs-shirt-zoom", 
+            { scale: 0.8, y: 50 },
+            { scale: 1.1, y: 0, ease: "none" }
+        );
+
+        // Caixas de Detalhes aparecendo
+        gsap.utils.toArray('.gs-detail').forEach((detail, i) => {
+            gsap.fromTo(detail, 
+                { opacity: 0, y: 50 * (i===0 ? -1 : 1) },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    scrollTrigger: {
+                        trigger: ".shirt-wrapper",
+                        start: "top 40%",
+                        end: "center center",
+                        scrub: 1
+                    }
+                }
+            );
+        });
+
+    </script>
+</body>
+</html>
